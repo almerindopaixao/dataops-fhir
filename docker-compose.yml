@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4040:4040"
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - FHIR_API_URL=http://fhir:8080/fhir
+    volumes:
+      - .:/opt/application/
+    depends_on:
+      - fhir
+
+  fhir:
+    container_name: fhir-server
+    image: "hapiproject/hapi:latest"
+    ports:
+      - "8080:8080"
+    configs:
+      - source: hapi
+        target: /app/config/application.yaml
+    depends_on:
+      - db
+
+  db:
+    container_name: fhir-db
+    image: "postgres:latest"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: hapi
+    volumes:
+      - ./.docker/hapi.postgres.data:/var/lib/postgresql/data
+
+configs:
+  hapi:
+    file: ./.docker/conf/hapi.application.yaml

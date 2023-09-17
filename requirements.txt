@@ -1,0 +1,3 @@
+fhirpy==1.4.2
+fhir.resources==7.0.2
+requests==2.31.0

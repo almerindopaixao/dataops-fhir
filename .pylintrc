@@ -1,0 +1,12 @@
+[MAIN]
+
+disable=
+    C0116, # missing-module-docstring
+    C0115, # missing-class-docstring
+    C0114, # missing-module-docstring
+    W0199, # assert-on-tuple
+    C0209, # consider-using-f-string
+    W0122, # exec-used do pep8
+
+[BASIC]
+good-names=df
